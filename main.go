@@ -1,6 +1,8 @@
 package main
 
-import "github.com/veandco/go-sdl2/sdl"
+import (
+	"github.com/veandco/go-sdl2/sdl"
+)
 
 func main() {
 	if err := sdl.Init(sdl.INIT_EVERYTHING); err != nil {
@@ -9,7 +11,7 @@ func main() {
 	defer sdl.Quit()
 
 	window, err := sdl.CreateWindow("test", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
-		800, 600, sdl.WINDOW_SHOWN)
+		1280, 768, sdl.WINDOW_SHOWN)
 	if err != nil {
 		panic(err)
 	}
@@ -19,7 +21,11 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	surface.FillRect(nil, 0)
+
+	err = surface.FillRect(nil, 0)
+	if err != nil {
+		panic(err)
+	}
 
 	rect := sdl.Rect{100, 0, 200, 200}
 	rect2 := sdl.Rect{200, 100, 200, 200}
@@ -36,12 +42,36 @@ func main() {
 	pixel3 := sdl.MapRGBA(surface.Format, yellow.R, yellow.G, yellow.B, yellow.A)
 	pixel4 := sdl.MapRGBA(surface.Format, blue.R, blue.G, blue.B, blue.A)
 	pixel5 := sdl.MapRGBA(surface.Format, green.R, green.G, green.B, green.A)
-	surface.FillRect(&rect, pixel)
-	surface.FillRect(&rect2, pixel2)
-	surface.FillRect(&rect3, pixel3)
-	surface.FillRect(&rect4, pixel4)
-	surface.FillRect(&rect5, pixel5)
-	window.UpdateSurface()
+
+	err = surface.FillRect(&rect, pixel)
+	if err != nil {
+		panic(err)
+	}
+
+	err = surface.FillRect(&rect2, pixel2)
+	if err != nil {
+		panic(err)
+	}
+
+	err = surface.FillRect(&rect3, pixel3)
+	if err != nil {
+		panic(err)
+	}
+
+	err = surface.FillRect(&rect4, pixel4)
+	if err != nil {
+		panic(err)
+	}
+
+	err = surface.FillRect(&rect5, pixel5)
+	if err != nil {
+		panic(err)
+	}
+
+	err = window.UpdateSurface()
+	if err != nil {
+		panic(err)
+	}
 
 	running := true
 	for running {
@@ -50,6 +80,9 @@ func main() {
 			case *sdl.QuitEvent:
 				println("Quit")
 				running = false
+				break
+			case *sdl.MouseButtonEvent:
+				println("MouseButtonEvent")
 				break
 			}
 		}
